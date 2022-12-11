@@ -19,6 +19,7 @@ class Weapon {
   }
 
   draw() {
+    console.log(this.bullets)
     this.bullets.forEach(b => b.draw())
   }
 
