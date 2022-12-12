@@ -9,21 +9,19 @@ class Game {
     this.obstacles = []
   }
 
-  start() {
-    // TODO: loop. clear, draw, move, addObstacle, checkCollisions, clearObstacles
-  
+  start() {  
     this.intervalId = setInterval( () => {
       this.clear();
       this.draw();
       this.move();
       this.animate();
       this.addObstacle();
+      this.checkCollisions();
     }, 1000 / 60 )
   }
 
   clearObstacles() {
-
-    //FALTA METER EL CLEAR
+    this.obstacles.filter(o => o.isVisible);
   }
 
   addObstacle() {
@@ -57,8 +55,14 @@ class Game {
   }
 
   checkCollisions() {
-    // TODO: check helicopter on floor?
-    // TODO: iterate obstacles. check colX and colY
+    const hel = this.helicopter;
+    this.obstacles.forEach( o => {
+      const colX = hel.x + hel.w >= o.x && hel.x <= o.x + o.w;
+      const colY = hel.y <= o.y + o.h && hel.y + hel.h >= o.y;
+      if(colX && colY) {
+        this.gameOver();
+      }
+    })
   }
 
   onKeyEvent(event) {
